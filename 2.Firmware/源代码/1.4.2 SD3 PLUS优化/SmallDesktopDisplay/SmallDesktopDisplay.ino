@@ -58,7 +58,7 @@
 //WEB配网使能标志位----WEB配网打开后会默认关闭smartconfig功能
 #define WM_EN   1
 //设定DHT11温湿度传感器使能标志
-#define DHT_EN  0
+#define DHT_EN  1
 //设置太空人图片是否使用
 #define imgAst_EN 1
 
@@ -151,7 +151,7 @@ Number      dig;
 WeatherNum  wrat;
 
 uint32_t targetTime = 0;   
-String cityCode = "0";  //天气城市代码 长沙:101250101株洲:101250301衡阳:101250401
+String cityCode = "0";  //天气城市代码 太原:101100101 太原小店区:101100107 吕梁：101101100 临县：101101102
 int tempnum = 0;   //温度百分比
 int huminum = 0;   //湿度百分比
 int tempcol =0xffff;   //温度显示颜色
@@ -963,9 +963,12 @@ void getCityWeater(){
  //String URL = "http://d1.weather.com.cn/dingzhi/" + cityCode + ".html?_="+String(now());//新
  String URL = "http://d1.weather.com.cn/weather_index/" + cityCode + ".html?_="+String(now());//原来
   //创建 HTTPClient 对象
+  WiFiClient client;
+  
   HTTPClient httpClient;
   
-  httpClient.begin(URL); 
+  httpClient.begin(client,URL); 
+
   
   //设置请求头中的User-Agent
   httpClient.setUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1");
@@ -1365,4 +1368,3 @@ void wifi_reset(Button2& btn){
   Serial.println("重置WiFi成功");
   ESP.restart();
 }
-
